@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: livraison
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_config:/etc/mysql/conf.d
+    networks:
+      - app-network
+  angular-app:
+      build:
+        context: ./
+      image: khouloud781/pfemayangular
+      ports:
+        - "4200:4200"
+      depends_on:
+        - pfemay
+      networks:
+        - app-network
+  pfemay:
+    build:
+      context: ./
+    image: khould781/pfemayspring
+    ports:
+      - "8090:8090"
+
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+  mysql_config:
+networks:
+  app-network:
+    driver: bridge
