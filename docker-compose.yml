@@ -14,8 +14,6 @@ services:
     networks:
       - app-network
   angular-app:
-      build:
-        context: ./
       image: khouloud781/pfemayangular
       ports:
         - "4200:4200"
