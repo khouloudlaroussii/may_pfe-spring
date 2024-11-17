@@ -5,7 +5,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: livraison
     volumes:
@@ -13,29 +13,47 @@ services:
       - mysql_config:/etc/mysql/conf.d
     networks:
       - app-network
+  
   angular-app:
-      image: khouloud781/pfemayangular
-      ports:
-        - "4200:4200"
-      depends_on:
-        - pfemay
-      networks:
-        - app-network
+    image: khouloud781/pfemayangular
+    ports:
+      - "4200:4200"
+    depends_on:
+      - pfemay
+    networks:
+      - app-network
+  
   pfemay:
     build:
       context: ./
     image: khould781/pfemayspring
     ports:
       - "8090:8090"
-
     depends_on:
       - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/livraison
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      JWT_SECRET: UJ_b8BnG-Hm_v1fQUd0O3hO2L-bCwrjcfu-MtpY8V6A
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: laroussikhouloudpfe@gmail.com
+      SPRING_MAIL_PASSWORD: zyzixfqhqgrowgjc
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      SPRING_MAIL_DEFAULT_ENCODING: UTF-8
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST: smtp.gmail.com
+      SPRING_MAIL_FROM: laroussikhouloudpfe@gmail.com
     networks:
       - app-network
 
 volumes:
   mysql_data:
   mysql_config:
+
 networks:
   app-network:
-    driver: bridge
