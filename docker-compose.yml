@@ -14,18 +14,16 @@ services:
     networks:
       - app-network
   
-  angular-app:
-    image: khouloud781/pfemayangular
-    ports:
-      - "4200:4200"
-    depends_on:
-      - pfemay
-    networks:
-      - app-network
+ # angular-app:
+  #  image: khouloud781/pfemayangular
+   # ports:
+    #  - "4200:4200"
+    #depends_on:
+    #  - pfemay
+    #networks:
+     # - app-network
   
   pfemay:
-    build:
-      context: ./
     image: khould781/pfemayspring
     ports:
       - "8090:8090"
