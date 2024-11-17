@@ -24,7 +24,7 @@ services:
      # - app-network
   
   pfemay:
-    image: khould781/pfemayspring
+    image: khould781/pfemay
     ports:
       - "8090:8090"
     depends_on:
